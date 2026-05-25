@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-vector<vector<double>> multiply(vector<vector<double>>& A, vector<vector<double>>& B) {
+vector<vector<double>> multiply(const vector<vector<double>>& A, const vector<vector<double>>& B) {
     int n = A.size();
     vector<vector<double>> C(n, vector<double>(n, 0));
     for (int i = 0; i < n; i++)
