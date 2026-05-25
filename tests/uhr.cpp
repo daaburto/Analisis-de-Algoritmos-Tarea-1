@@ -30,6 +30,10 @@ int main(int argc, char *argv[])
     std::int64_t runs, lower, upper, step;
     validate_input(argc, argv, runs, lower, upper, step);
 
+    // Argumentos extra: algoritmo e instancia
+    std::string algoritmo = argv[6]; // "classic" o "strassen"
+    std::string instancia = argv[7]; // "int_random", "real_random", "dispersa", "simetrica"
+
     // Set up clock variables
     std::int64_t n, i, executed_runs;
     std::int64_t total_runs_additive = runs * (((upper - lower) / step) + 1);
@@ -40,11 +44,6 @@ int main(int argc, char *argv[])
     auto begin_time = std::chrono::high_resolution_clock::now();
     auto end_time = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::nano> elapsed_time = end_time - begin_time;
-
-    // Set up random number generation
-    std::random_device rd;
-    std::mt19937_64 rng(rd());
-    std::uniform_int_distribution<std::int64_t> u_distr; // change depending on app
 
     // File to write time data
     std::ofstream time_data;
@@ -59,8 +58,9 @@ int main(int argc, char *argv[])
         time_stdev = 0;
 
         // Test configuration goes here
-        auto A = load_matrix("matrices/int_rand/A_" + to_string(n) + ".txt");
-        auto B = load_matrix("matrices/int_rand/B_" + to_string(n) + ".txt");
+        auto A = load_matrix("matrices/" + instancia + "/A_" + std::to_string(n) + ".txt");
+        auto B = load_matrix("matrices/" + instancia + "/B_" + std::to_string(n) + ".txt");
+
         // Run to compute elapsed time
         for (i = 0; i < runs; i++) {
             // Remember to change total depending on step type
@@ -68,7 +68,10 @@ int main(int argc, char *argv[])
 
             begin_time = std::chrono::high_resolution_clock::now();
             // Function to test goes here
-            auto C = multiply(A, B); // o strassen o el hibrido
+            if (algoritmo == "classic")
+                auto C = multiply(A, B);
+            else
+                auto C = strassen(A, B);
             end_time = std::chrono::high_resolution_clock::now();
 
             elapsed_time = end_time - begin_time;
