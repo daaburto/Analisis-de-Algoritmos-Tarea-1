@@ -2,6 +2,8 @@
 #define MATRIZ_HPP
 
 #include <vector>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -59,8 +61,18 @@ vector<vector<double>> joinMatrix(vector<vector<double>>& C11, vector<vector<dou
             C[i + half][j + half] = C22[i][j];
         }
     }
-
     return C;
 }
 
+// Cargar matriz de un archivo
+vector<vector<double>> load_matrix(const string& filename) {
+    ifstream file(filename);
+    int n;
+    file >> n;
+    vector<vector<double>> A(n, vector<double>(n));
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            file >> A[i][j];
+    return A;
+}
 #endif
