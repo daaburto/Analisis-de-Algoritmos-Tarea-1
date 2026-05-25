@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<vector<double>> add(vector<vector<double>>& A, vector<vector<double>>& B) {
+vector<vector<double>> add(const vector<vector<double>>& A, const vector<vector<double>>& B) {
     int n = A.size();
     vector<vector<double>> C(n, vector<double>(n));
     for (int i = 0; i < n; i++)
@@ -14,7 +14,7 @@ vector<vector<double>> add(vector<vector<double>>& A, vector<vector<double>>& B)
     return C;
 }
 
-vector<vector<double>> subtract(vector<vector<double>>& A, vector<vector<double>>& B) {
+vector<vector<double>> subtract(const vector<vector<double>>& A, const vector<vector<double>>& B) {
     int n = A.size();
     vector<vector<double>> C(n, vector<double>(n));
     for (int i = 0; i < n; i++)
@@ -24,7 +24,7 @@ vector<vector<double>> subtract(vector<vector<double>>& A, vector<vector<double>
 }
 
 // Dividir matriz en 4
-void splitMatrix(vector<vector<double>>& A, vector<vector<double>>& A11, vector<vector<double>>& A12, vector<vector<double>>& A21, vector<vector<double>>& A22){
+void splitMatrix(const vector<vector<double>>& A, vector<vector<double>>& A11, vector<vector<double>>& A12, vector<vector<double>>& A21, vector<vector<double>>& A22){
     int n = A.size();
     int half = n/2;
 
