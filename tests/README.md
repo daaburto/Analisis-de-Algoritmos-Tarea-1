@@ -76,17 +76,17 @@ Donde:
 Ejemplo para replicar todos los experimentos:
 
 ```bash
-.\uhr.exe results/clasico_int_random.csv   32 4 1024 2 clasico  int_random
-.\uhr.exe results/clasico_real_random.csv  32 4 1024 2 clasico  real_random
-.\uhr.exe results/clasico_dispersa.csv     32 4 1024 2 clasico  dispersa
-.\uhr.exe results/clasico_simetrica.csv  32 4 1024 2 clasico  simetrica
-.\uhr.exe results/strassen_int_random.csv  32 4 1024 2 strassen int_random
+.\uhr.exe results/clasico_int_random.csv 32 4 1024 2 clasico int_random
+.\uhr.exe results/clasico_real_random.csv 32 4 1024 2 clasico real_random
+.\uhr.exe results/clasico_dispersa.csv 32 4 1024 2 clasico dispersa
+.\uhr.exe results/clasico_simetrica.csv 32 4 1024 2 clasico simetrica
+.\uhr.exe results/strassen_int_random.csv 32 4 1024 2 strassen int_random
 .\uhr.exe results/strassen_real_random.csv 32 4 1024 2 strassen real_random
-.\uhr.exe results/strassen_dispersa.csv    32 4 1024 2 strassen dispersa
+.\uhr.exe results/strassen_dispersa.csv 32 4 1024 2 strassen dispersa
 .\uhr.exe results/strassen_simetrica.csv 32 4 1024 2 strassen simetrica
 ```
 
-### Híbrido
+### Algoritmo Híbrido
 
 ```bash
 .\uhr_hybrid.exe <archivo.csv> <runs> <lower> <upper> <step> <instancia> <n0>
