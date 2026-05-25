@@ -1,6 +1,6 @@
 #include <iostream>
 #include "clasico.hpp"
-#include "split.hpp"
+#include "matriz.hpp"
 using namespace std;
 
 int main() {
@@ -30,11 +30,15 @@ int main() {
         }
     }
 
-    /*for (int i = 0; i < C.size(); i++) {
+    auto C = joinMatrix(A11, A12, A21, A22);
+
+
+
+    for (int i = 0; i < C.size(); i++) {
         for (int j = 0; j < C[i].size(); j++)
             cout << C[i][j] << " ";
         cout << "\n";
     }
-        */
+        
     return 0;
 }

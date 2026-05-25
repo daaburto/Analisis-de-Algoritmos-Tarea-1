@@ -24,5 +24,23 @@ void splitMatrix(vector<vector<double>>& A, vector<vector<double>>& A11, vector<
     }
 }
 
+vector<vector<double>> joinMatrix(vector<vector<double>>& C11, vector<vector<double>>& C12, vector<vector<double>>& C21, vector<vector<double>>& C22){
+    int half = C11.size();
+    int n = half*2;
+
+    vector<vector<double>> C(n, vector<double>(n));
+
+    for (int i = 0; i < half; i++){
+        for (int j = 0; j < half; j++){
+            C[i][j] = C11[i][j];
+            C[i][j+half] = C12[i][j];
+            C[i + half][j] = C21[i][j];
+            C[i + half][j + half] = C22[i][j];
+        }
+    }
+
+    return C;
+}
+
 
 #endif
