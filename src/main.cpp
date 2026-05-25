@@ -6,52 +6,46 @@
 using namespace std;
 
 int main() {
-    // Test 2x2
-    /*
-    vector<vector<double>> A = {{1, 2}, {3, 4}};
-    vector<vector<double>> B = {{5, 6}, {7, 8}};
-
-    // Multiplicacion clasica
-    auto C = multiply(A, B);
-
-    for (int i = 0; i < C.size(); i++) {
-        for (int j = 0; j < C[i].size(); j++)
-            cout << C[i][j] << " ";
-        cout << "\n";
-    }
-        */
 
     // Multiplicacion por Strassen
+
+    vector<vector<double>> A, B;
+
+    A = {
+        {1,2,3,4},
+        {3,4,5,6},
+        {7,8,9,10},
+        {11,12,13,14}
+    };
     
-    vector<vector<double>> A = {
-    {1, 2, 3, 4, 5, 6, 7, 8},
-    {9,10,11,12,13,14,15,16},
-    {17,18,19,20,21,22,23,24},
-    {25,26,27,28,29,30,31,32},
-    {33,34,35,36,37,38,39,40},
-    {41,42,43,44,45,46,47,48},
-    {49,50,51,52,53,54,55,56},
-    {57,58,59,60,61,62,63,64}
+    B = {
+        {3,4,5,6},
+        {1,2,3,4},
+        {11,12,13,14},
+        {7,8,9,10}
     };
 
-    vector<vector<double>> B = {
-        {64,63,62,61,60,59,58,57},
-        {56,55,54,53,52,51,50,49},
-        {48,47,46,45,44,43,42,41},
-        {40,39,38,37,36,35,34,33},
-        {32,31,30,29,28,27,26,25},
-        {24,23,22,21,20,19,18,17},
-        {16,15,14,13,12,11,10,9},
-        {8,7,6,5,4,3,2,1}
-    };
+    auto C = strassen(A,B);
 
-    auto C = hybrid(A, B, 9);
-
+    cout << "MULTIPLICACION POR STRASSEN" << endl;
     for (int i = 0; i < C.size(); i++) {
         for (int j = 0; j < C[i].size(); j++)
             cout << C[i][j] << " ";
         cout << "\n";
     }
+
+    // Multiplicación clásica
+
+    auto D = multiply(A,B);
+
+    cout << "MULTIPLICACION CLASICA" << endl;
+
+    for (int i = 0; i < D.size(); i++) {
+        for (int j = 0; j < D[i].size(); j++)
+            cout << D[i][j] << " ";
+        cout << "\n";
+    }
+    
 
     return 0;
 }
