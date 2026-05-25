@@ -13,10 +13,10 @@ vector<vector<double>> hybrid(const vector<vector<double>>& A, const vector<vect
     vector<vector<double>> C;
 
     if (n >= n0){
-        cout << "Se utilizo Strassen";
+        //cout << "Se utilizo Strassen";
         C = strassen(A, B);
     }else{
-        cout << "Se utilizo el algoritmo clasico";
+        //cout << "Se utilizo el algoritmo clasico";
         C = multiply(A, B);
     }
 
