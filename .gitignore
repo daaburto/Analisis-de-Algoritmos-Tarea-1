@@ -70,3 +70,6 @@ Testing/
 
 # Idea folder
 .idea/
+
+#.vscode
+.vscode/
