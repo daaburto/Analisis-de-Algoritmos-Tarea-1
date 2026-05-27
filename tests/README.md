@@ -85,7 +85,7 @@ Ejemplo para replicar todos los experimentos:
 .\uhr.exe results/strassen_dispersa.csv 32 4 1024 2 strassen dispersa
 .\uhr.exe results/strassen_simetrica.csv 32 4 1024 2 strassen simetrica
 ```
-
+- obs: si se esta demorando mucho en ejecutar, es recomendable bajar el `<upper>` o la cantidad de `<steps>`
 ### Algoritmo Híbrido
 
 ```bash
