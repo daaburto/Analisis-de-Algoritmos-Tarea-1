@@ -1,44 +1,69 @@
 #ifndef STRASSEN_HPP
 #define STRASSEN_HPP
 
-#include <vector>
 #include "matriz.hpp"
 using namespace std;
 
-vector<vector<double>> strassen(const vector<vector<double>>& A, const vector<vector<double>>& B){
-    int n = A.size();
-
+Matrix strassen(const Matrix& A, const Matrix& B, int n) {
     // Caso base
-    if (n == 1){
-        return {{A[0][0] * B[0][0]}};
+    if (n == 1) {
+        Matrix C = create(1);
+        C[0] = A[0] * B[0];
+        return C;
     }
 
     // Particionar A y B en submatrices
-    vector<vector<double>> A11, A12, A21, A22;
-    vector<vector<double>> B11, B12, B21, B22;
-    splitMatrix(A, A11, A12, A21, A22);
-    splitMatrix(B, B11, B12, B21, B22);
+    int half = n / 2;
+    Matrix A11, A12, A21, A22;
+    Matrix B11, B12, B21, B22;
+    splitMatrix(A, A11, A12, A21, A22, n);
+    splitMatrix(B, B11, B12, B21, B22, n);
 
-    auto M1 = strassen(add(A11, A22), add(B11, B22));
-    auto M2 = strassen(add(A21, A22), B11);
-    auto M3 = strassen(A11, subtract(B12, B22));
-    auto M4 = strassen(A22, subtract(B21, B11));
-    auto M5 = strassen(add(A11, A12), B22);
-    auto M6 = strassen(subtract(A21, A11), add(B11, B12));
-    auto M7 = strassen(subtract(A12, A22), add(B21, B22));
+    Matrix temp1 = create(half);
+    Matrix temp2 = create(half);
 
-    // Calcular subvectores
+    add(A11,A22, temp1);
+    add(B11, B22, temp2);
+    auto M1 = strassen(temp1, temp2, half);
 
-    auto C11 = add(subtract(add(M1, M4), M5), M7);
-    auto C12 = add(M3, M5);
-    auto C21 = add(M2, M4);
-    auto C22 = add(subtract(M1,M2), add(M3,M6));
-    
+    add(A21, A22, temp1);
+    auto M2 = strassen(temp1, B11, half);
+
+    subtract(B12, B22, temp2);
+    auto M3 = strassen(A11, temp2, half);
+
+    subtract(B21, B11, temp2);
+    auto M4 = strassen(A22, temp2, half);
+
+    add(A11, A12, temp1);
+    auto M5 = strassen(temp1, B22, half);
+
+    subtract(A21, A11, temp1);
+    add(B11, B12, temp2);
+    auto M6 = strassen(temp1, temp2, half);
+
+    subtract(A12, A22, temp1);
+    add(B21, B22, temp2);
+    auto M7 = strassen(temp1, temp2, half);
+
+    // Calcular submatrices de C
+    Matrix C11 = create(half);
+    Matrix C12 = create(half);
+    Matrix C21 = create(half);
+    Matrix C22 = create(half);
+    Matrix tmp = create(half);
+
+    add(M1, M4, tmp); subtract(tmp, M5, C11); add(C11, M7, tmp);
+    C11 = tmp;
+    add(M3, M5, C12);
+    add(M2, M4, C21);
+    subtract(M1, M2, tmp); add(tmp, M3, C22); add(C22, M6, tmp);
+    C22 = tmp;
+
     // Juntarlos de vuelta en C
-    vector<vector<double>> C = joinMatrix(C11, C12, C21, C22);
-
+    Matrix C = create(n);
+    joinMatrix(C11, C12, C21, C22, C, n);
     return C;
 }
-
 
 #endif

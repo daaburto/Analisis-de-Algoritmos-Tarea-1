@@ -7,76 +7,62 @@
 
 using namespace std;
 
-vector<vector<double>> add(const vector<vector<double>>& A, const vector<vector<double>>& B) {
-    int n = A.size();
-    vector<vector<double>> C(n, vector<double>(n));
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            C[i][j] = A[i][j] + B[i][j];
-    return C;
+// Matriz como vector 1D, para evitar problemas de memoria
+using Matrix = vector<double>;
+
+Matrix create(int n) {
+    return Matrix(n * n, 0.0);
 }
 
-vector<vector<double>> subtract(const vector<vector<double>>& A, const vector<vector<double>>& B) {
-    int n = A.size();
-    vector<vector<double>> C(n, vector<double>(n));
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            C[i][j] = A[i][j] - B[i][j];
-    return C;
+void add(const Matrix& A, const Matrix& B, Matrix& C) {
+    for (int i = 0; i < A.size(); i++)
+        C[i] = A[i] + B[i];
+}
+
+void subtract(const Matrix& A, const Matrix& B, Matrix& C) {
+    for (int i = 0; i < A.size(); i++)
+        C[i] = A[i] - B[i];
 }
 
 // Dividir matriz en 4
-void splitMatrix(const vector<vector<double>>& A, vector<vector<double>>& A11, vector<vector<double>>& A12, vector<vector<double>>& A21, vector<vector<double>>& A22){
-    int n = A.size();
-    int half = n/2;
-
-    // Crear matrices n/2 x n/2
-    A11 = vector<vector<double>>(half, vector<double>(half));
-    A12 = vector<vector<double>>(half, vector<double>(half));
-    A21 = vector<vector<double>>(half, vector<double>(half));
-    A22 = vector<vector<double>>(half, vector<double>(half));
-
-    for (int i = 0; i < half; i++){
-        for (int j = 0; j < half; j++){
-            A11[i][j] = A[i][j];
-            A12[i][j] = A[i][j + half];
-            A21[i][j] = A[i + half][j];
-            A22[i][j] = A[i + half][j + half];
+void splitMatrix(const Matrix& A, Matrix& A11, Matrix& A12, Matrix& A21, Matrix& A22, int n) {
+    int half = n / 2;
+    A11 = create(half);
+    A12 = create(half);
+    A21 = create(half);
+    A22 = create(half);
+    for (int i = 0; i < half; i++)
+        for (int j = 0; j < half; j++) {
+            A11[i * half + j] = A[i * n + j];
+            A12[i * half + j] = A[i * n + j + half];
+            A21[i * half + j] = A[(i + half) * n + j];
+            A22[i * half + j] = A[(i + half) * n + j + half];
         }
-    }
 }
 
 // Unir matriz
-vector<vector<double>> joinMatrix(const vector<vector<double>>& C11, const vector<vector<double>>& C12, const vector<vector<double>>& C21, const vector<vector<double>>& C22){
-    int half = C11.size();
-    int n = half*2;
-
-    vector<vector<double>> C(n, vector<double>(n));
-
-    for (int i = 0; i < half; i++){
-        for (int j = 0; j < half; j++){
-            C[i][j] = C11[i][j];
-            C[i][j+half] = C12[i][j];
-            C[i + half][j] = C21[i][j];
-            C[i + half][j + half] = C22[i][j];
+void joinMatrix(const Matrix& C11, const Matrix& C12, const Matrix& C21, const Matrix& C22, Matrix& C, int n) {
+    int half = n / 2;
+    for (int i = 0; i < half; i++)
+        for (int j = 0; j < half; j++) {
+            C[i * n + j] = C11[i * half + j];
+            C[i * n + j + half] = C12[i * half + j];
+            C[(i + half) * n + j] = C21[i * half + j];
+            C[(i + half) * n + j + half] = C22[i * half + j];
         }
-    }
-    return C;
 }
 
 // Cargar matriz de un archivo
-vector<vector<double>> load_matrix(const string& filename) {
+Matrix load_matrix(const string& filename, int& n) {
     ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Error: Cannot open file " << filename << endl;
         exit(EXIT_FAILURE);
     }
-    int n;
     file >> n;
-    vector<vector<double>> A(n, vector<double>(n));
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            file >> A[i][j];
+    Matrix A = create(n);
+    for (int i = 0; i < n * n; i++)
+        file >> A[i];
     return A;
 }
 #endif

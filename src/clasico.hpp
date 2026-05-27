@@ -1,16 +1,15 @@
 #ifndef CLASICO_HPP
 #define CLASICO_HPP
 
-#include <vector>
+#include "matriz.hpp"
 using namespace std;
 
-vector<vector<double>> multiply(const vector<vector<double>>& A, const vector<vector<double>>& B) {
-    int n = A.size();
-    vector<vector<double>> C(n, vector<double>(n, 0));
+Matrix multiply(const Matrix& A, const Matrix& B, const int n) {
+    Matrix C = create(n);
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++)
             for (int k = 0; k < n; k++)
-                C[i][j] += A[i][k] * B[k][j];
+                C[i * n + j] += A[i * n + k] * B[k * n + j];
     return C;
 }
 

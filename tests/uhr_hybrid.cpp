@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     double mean_time, time_stdev, dev;
     auto begin_time = std::chrono::high_resolution_clock::now();
     auto end_time = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::nano> elapsed_time = end_time - begin_time;
+    std::chrono::duration<double, std::micro> elapsed_time = end_time - begin_time;
 
     std::ofstream time_data;
     time_data.open(filename);
@@ -40,14 +40,15 @@ int main(int argc, char *argv[])
         mean_time  = 0;
         time_stdev = 0;
 
-        auto A = load_matrix("matrices/" + instancia + "/A_" + std::to_string(n) + ".txt");
-        auto B = load_matrix("matrices/" + instancia + "/B_" + std::to_string(n) + ".txt");
+        int size = (int)n;
+        auto A = load_matrix("matrices/" + instancia + "/A_" + std::to_string(n) + ".txt", size);
+        auto B = load_matrix("matrices/" + instancia + "/B_" + std::to_string(n) + ".txt", size);
 
         for (std::int64_t i = 0; i < runs; i++) {
             display_progress(++executed_runs, total_runs_multiplicative);
 
             begin_time = std::chrono::high_resolution_clock::now();
-            auto C = hybrid(A, B, n0);
+            auto C = hybrid(A, B, size, n0);
             end_time = std::chrono::high_resolution_clock::now();
 
             elapsed_time = end_time - begin_time;

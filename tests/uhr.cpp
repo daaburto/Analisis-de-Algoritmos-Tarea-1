@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     double mean_time, time_stdev, dev;
     auto begin_time = std::chrono::high_resolution_clock::now();
     auto end_time = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::nano> elapsed_time = end_time - begin_time;
+    std::chrono::duration<double, std::micro> elapsed_time = end_time - begin_time;
 
     // File to write time data
     std::ofstream time_data;
@@ -58,8 +58,9 @@ int main(int argc, char *argv[])
         time_stdev = 0;
 
         // Test configuration goes here
-        auto A = load_matrix("matrices/" + instancia + "/A_" + std::to_string(n) + ".txt");
-        auto B = load_matrix("matrices/" + instancia + "/B_" + std::to_string(n) + ".txt");
+        int size = (int) n;
+        auto A = load_matrix("matrices/" + instancia + "/A_" + std::to_string(n) + ".txt", size);
+        auto B = load_matrix("matrices/" + instancia + "/B_" + std::to_string(n) + ".txt", size);
 
         // Run to compute elapsed time
         for (i = 0; i < runs; i++) {
@@ -68,11 +69,11 @@ int main(int argc, char *argv[])
 
             begin_time = std::chrono::high_resolution_clock::now();
             // Function to test goes here
-            std::vector<std::vector<double>> C;
+            std::vector<double> C;
             if (algoritmo == "clasico")
-                C = multiply(A, B);
+                C = multiply(A, B, size);
             else
-                C = strassen(A, B);
+                C = strassen(A, B, size);
             end_time = std::chrono::high_resolution_clock::now();
 
             elapsed_time = end_time - begin_time;

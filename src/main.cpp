@@ -1,51 +1,37 @@
 #include <iostream>
 #include "clasico.hpp"
-#include "matriz.hpp"
 #include "strassen.hpp"
-#include "hybrid.hpp"
 using namespace std;
 
 int main() {
+    int n = 4;
+
+    Matrix A = {1,2,3,4,3,4,5,6,7,8,9,10,11,12,13,14};
+    Matrix B = {3,4,5,6,1,2,3,4,11,12,13,14,7,8,9,10};
 
     // Multiplicacion por Strassen
 
-    vector<vector<double>> A, B;
-
-    A = {
-        {1,2,3,4},
-        {3,4,5,6},
-        {7,8,9,10},
-        {11,12,13,14}
-    };
-    
-    B = {
-        {3,4,5,6},
-        {1,2,3,4},
-        {11,12,13,14},
-        {7,8,9,10}
-    };
-
-    auto C = strassen(A,B);
+    auto C = strassen(A,B,n);
 
     cout << "MULTIPLICACION POR STRASSEN" << endl;
-    for (int i = 0; i < C.size(); i++) {
-        for (int j = 0; j < C[i].size(); j++)
-            cout << C[i][j] << " ";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++)
+            cout << C[i * n + j] << " ";
         cout << "\n";
     }
 
     // Multiplicación clásica
 
-    auto D = multiply(A,B);
+    auto D = multiply(A,B,n);
 
     cout << "MULTIPLICACION CLASICA" << endl;
 
-    for (int i = 0; i < D.size(); i++) {
-        for (int j = 0; j < D[i].size(); j++)
-            cout << D[i][j] << " ";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++)
+            cout << D[i * n + j] << " ";
         cout << "\n";
     }
-    
+
 
     return 0;
 }
