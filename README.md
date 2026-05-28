@@ -20,11 +20,7 @@ Se busca observar cómo influye el tamaño de entrada en el tiempo de ejecución
 
 Implementación iterativa de la multiplicación tradicional de matrices cuadradas.
 
-Complejidad temporal:
-
-[
-O(n^3)
-]
+Complejidad temporal: O(n^3)
 
 ---
 
@@ -32,11 +28,7 @@ O(n^3)
 
 Implementación recursiva basada en **divide & conquer**, que reduce el número de multiplicaciones necesarias en cada nivel de la recursión.
 
-Complejidad temporal:
-
-[
-O(n^{2.807})
-]
+Complejidad temporal: O(n^(2.807))
 
 ---
 
