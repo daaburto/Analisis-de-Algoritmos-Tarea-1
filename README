@@ -1,0 +1,201 @@
+# Análisis de Algoritmos — Tarea 1
+
+Implementación y análisis experimental de algoritmos de multiplicación de matrices para el curso de **Análisis de Algoritmos**.
+
+El proyecto compara el algoritmo clásico de multiplicación de matrices con el algoritmo de **Strassen** y una versión **híbrida**, evaluando su rendimiento experimental sobre distintos tipos de instancias.
+
+---
+
+## Objetivo
+
+Implementar y comparar distintos algoritmos de multiplicación de matrices cuadradas, analizando su comportamiento práctico y contrastándolo con su complejidad teórica.
+
+Se busca observar cómo influye el tamaño de entrada en el tiempo de ejecución y evaluar qué tan bien la notación **Big O** refleja el comportamiento experimental.
+
+---
+
+## Algoritmos implementados
+
+### Multiplicación clásica
+
+Implementación iterativa de la multiplicación tradicional de matrices cuadradas.
+
+Complejidad temporal:
+
+[
+O(n^3)
+]
+
+---
+
+### Algoritmo de Strassen
+
+Implementación recursiva basada en **divide & conquer**, que reduce el número de multiplicaciones necesarias en cada nivel de la recursión.
+
+Complejidad temporal:
+
+[
+O(n^{2.807})
+]
+
+---
+
+### Algoritmo híbrido
+
+Combina ambos enfoques:
+
+* utiliza multiplicación clásica para tamaños pequeños
+* cambia a Strassen al superar un umbral `n0`
+
+El objetivo es disminuir la sobrecarga de Strassen en tamaños pequeños y aprovechar su mejor complejidad en tamaños mayores.
+
+---
+
+## Estructura del proyecto
+
+```bash
+.
+├── src/
+│   ├── main.cpp
+│   ├── clasico.hpp
+│   ├── strassen.hpp
+│   ├── hybrid.hpp
+│   └── matriz.hpp
+│
+├── tests/
+│   ├── matrices/
+│   │   ├── int_random/
+│   │   ├── real_random/
+│   │   ├── dispersa/
+│   │   └── simetrica/
+│   │
+│   ├── results/
+│   ├── generator.cpp
+│   ├── uhr.cpp
+│   ├── uhr_hybrid.cpp
+│   └── README.md
+│
+└── uhr/
+```
+
+---
+
+## Compilación
+
+### 1. Compilar el generador de matrices
+
+Desde `tests/`:
+
+```bash
+g++ -std=c++17 -o generator.exe generator.cpp
+```
+
+---
+
+### 2. Compilar tests clásico + Strassen
+
+Desde `tests/`:
+
+```bash
+g++ -std=c++17 -o uhr.exe uhr.cpp
+```
+
+---
+
+### 3. Compilar test híbrido
+
+Desde `tests/`:
+
+```bash
+g++ -std=c++17 -o uhr_hybrid.exe uhr_hybrid.cpp
+```
+
+---
+
+## Generación de matrices
+
+Ejecutar desde `tests/`:
+
+```bash
+.\generator.exe
+```
+
+Se generan matrices cuadradas de tamaño potencia de 2 para cuatro tipos de instancias:
+
+* enteros aleatorios `[-500,500]`
+* reales aleatorios `[0,1]`
+* matrices dispersas
+* matrices simétricas
+
+Los archivos se guardan en:
+
+```bash
+tests/matrices/
+```
+
+---
+
+## Ejecución de experimentos
+
+### Clásico + Strassen
+
+Formato:
+
+```bash
+.\uhr.exe <archivo.csv> <runs> <lower> <upper> <step> <instancia>
+```
+
+Ejemplo:
+
+```bash
+.\uhr.exe results/int_random.csv 32 4 512 2 int_random
+```
+
+Parámetros:
+
+* `archivo.csv`: archivo de salida
+* `runs`: cantidad de repeticiones por instancia
+* `lower`: tamaño mínimo
+* `upper`: tamaño máximo
+* `step`: incremento
+* `instancia`: tipo de matriz
+
+---
+
+### Algoritmo híbrido
+
+Formato:
+
+```bash
+.\uhr_hybrid.exe <archivo.csv> <runs> <lower> <upper> <step> <instancia> <n0>
+```
+
+Ejemplo:
+
+```bash
+.\uhr_hybrid.exe results/hybrid_int_random.csv 32 4 512 2 int_random 64
+```
+
+Parámetros adicionales:
+
+* `n0`: umbral donde se cambia de algoritmo clásico a Strassen
+
+---
+
+## Resultados
+
+Los resultados experimentales se almacenan en:
+
+```bash
+tests/results/
+```
+
+Formato CSV:
+
+* tamaño `n`
+* tiempo promedio de ejecución
+* algoritmo evaluado
+
+Estos resultados pueden utilizarse posteriormente para generar gráficos y comparar el rendimiento entre algoritmos.
+
+---
