@@ -47,7 +47,7 @@ void splitMatrix(const vector<vector<double>>& A, vector<vector<double>>& A11, v
 }
 
 // Unir matriz
-vector<vector<double>> joinMatrix(vector<vector<double>>& C11, vector<vector<double>>& C12, vector<vector<double>>& C21, vector<vector<double>>& C22){
+vector<vector<double>> joinMatrix(const vector<vector<double>>& C11, const vector<vector<double>>& C12, const vector<vector<double>>& C21, const vector<vector<double>>& C22){
     int half = C11.size();
     int n = half*2;
 
@@ -67,6 +67,10 @@ vector<vector<double>> joinMatrix(vector<vector<double>>& C11, vector<vector<dou
 // Cargar matriz de un archivo
 vector<vector<double>> load_matrix(const string& filename) {
     ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Error: Cannot open file " << filename << endl;
+        exit(EXIT_FAILURE);
+    }
     int n;
     file >> n;
     vector<vector<double>> A(n, vector<double>(n));

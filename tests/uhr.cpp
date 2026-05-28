@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     validate_input(argc, argv, runs, lower, upper, step);
 
     // Argumentos extra: algoritmo e instancia
-    std::string algoritmo = argv[6]; // "classic" o "strassen"
+    std::string algoritmo = argv[6]; // "clasico" o "strassen"
     std::string instancia = argv[7]; // "int_random", "real_random", "dispersa", "simetrica"
 
     // Set up clock variables
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     double mean_time, time_stdev, dev;
     auto begin_time = std::chrono::high_resolution_clock::now();
     auto end_time = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed_time = end_time - begin_time;
+    std::chrono::duration<double, std::milli> elapsed_time = end_time - begin_time;
 
     // File to write time data
     std::ofstream time_data;
@@ -68,10 +68,11 @@ int main(int argc, char *argv[])
 
             begin_time = std::chrono::high_resolution_clock::now();
             // Function to test goes here
-            if (algoritmo == "classic")
-                auto C = multiply(A, B);
+            std::vector<std::vector<double>> C;
+            if (algoritmo == "clasico")
+                C = multiply(A, B);
             else
-                auto C = strassen(A, B);
+                C = strassen(A, B);
             end_time = std::chrono::high_resolution_clock::now();
 
             elapsed_time = end_time - begin_time;
